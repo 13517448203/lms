@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -23,7 +23,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<User[]> {
     return this.userService.findAll();

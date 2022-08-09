@@ -1,4 +1,3 @@
-import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import {
@@ -10,12 +9,13 @@ import {
   ClassSerializerInterceptor,
   Post,
 } from '@nestjs/common';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('login')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async login(@Body() user: LoginDto, @Req() req) {

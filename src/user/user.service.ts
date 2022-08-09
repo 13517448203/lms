@@ -19,6 +19,13 @@ export class UserService {
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
+  async findUser(username: string): Promise<User | undefined> {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.username=:username', { username })
+      .getOne();
+  }
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
