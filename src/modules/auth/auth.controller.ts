@@ -4,7 +4,6 @@ import {
   Controller,
   Body,
   UseGuards,
-  Req,
   UseInterceptors,
   ClassSerializerInterceptor,
   Post,
@@ -16,10 +15,11 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @SetMetadata('isPublic', true)
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  async login(@Body() user: LoginDto, @Req() req) {
-    return await this.authService.login(req.user);
+  async login(@Body() user: LoginDto) {
+    return await this.authService.login(user);
   }
 }

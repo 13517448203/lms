@@ -13,16 +13,21 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext) {
-    const roles = this.reflector.get('whiteList', context.getHandler());
-    if (!roles) {
-      return true;
-    }
+    const isPublic = this.reflector.getAllAndOverride('isPublic', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic) return true;
+
     return super.canActivate(context);
   }
 
-  handleRequest<TUser = any>(err: any, user: any): TUser {
+  handleRequest<TUser = any>(err: any, user: any, info): TUser {
+    console.log(err, user, info);
+
     if (err || !user) {
-      throw err || new UnauthorizedException();
+      throw err || new UnauthorizedException('缺少 token');
     }
     return user;
   }

@@ -16,19 +16,15 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     private readonly configService: ConfigService,
     private readonly authService: AuthService,
   ) {
-    console.log('jj', ExtractJwt.fromHeader('token'));
-
     super({
-      jwtFromRequest: ExtractJwt.fromHeader('token'),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: configService.get('SECRET'),
     } as StrategyOptions);
   }
 
   async validate(user: User) {
-    console.log('111');
     const existUser = await this.authService.getUser(user);
-    console.log('v', existUser);
     if (!existUser) {
       throw new UnauthorizedException('token 不正确');
     }
