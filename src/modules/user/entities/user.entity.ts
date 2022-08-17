@@ -25,10 +25,14 @@ export class User extends BaseEntity {
   @Column('varchar', { name: 'email', nullable: true, length: 50 })
   email: string | null;
 
-  @Column('int', { name: 'status', nullable: true })
+  @Column('int', { name: 'status', nullable: true, default: () => "'1'" })
   status: number | null;
 
-  @Column('timestamp', { name: 'create_time', nullable: true })
+  @Column('timestamp', {
+    name: 'create_time',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createTime: Date | null;
 
   @Column('int', { name: 'role_id', nullable: true })

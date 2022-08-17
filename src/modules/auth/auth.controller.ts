@@ -11,14 +11,14 @@ import {
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
-@Controller('login')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @SetMetadata('isPublic', true)
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post()
+  @Post('login')
   async login(@Body() user: LoginDto) {
     return await this.authService.login(user);
   }

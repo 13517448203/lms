@@ -17,14 +17,13 @@ import { User } from './entities/user.entity';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('add')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get()
   async findAll(@Req() req): Promise<User[]> {
-    console.log(req);
     return this.userService.findAll();
   }
 

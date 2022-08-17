@@ -18,9 +18,9 @@ export class AuthService {
     //   throw new BadRequestException('用户名或密码不正确错误！');
     // }
 
-    console.log(username, password);
+    console.log(username, password, user.password);
     if (!user || password !== user.password) {
-      return new BadRequestException('用户名或密码错误！');
+      throw new BadRequestException('用户名或密码错误！');
     }
 
     return user;
